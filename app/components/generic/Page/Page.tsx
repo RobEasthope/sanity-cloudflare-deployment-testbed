@@ -4,8 +4,8 @@ import type {
   SanityImageHotspot,
   SanityReference,
 } from 'sanity-codegen';
-
-import { SanityBlocks } from '~/components/_base/SanityBlocks/SanityBlocks';
+import { Box } from '~/components/_base/Box/Box';
+import { Type } from '~/components/_base/Type/Type';
 
 // TYPES
 export type PageProps = {
@@ -27,5 +27,7 @@ export type PageProps = {
 
 // MARKUP
 export const Page = ({ page }: PageProps) => (
-  <SanityBlocks blocks={page?.sections} pageID={page?._id} />
+  <Box as="article" className="page">
+    <Type as="h1">{page?.title}</Type>
+  </Box>
 );
