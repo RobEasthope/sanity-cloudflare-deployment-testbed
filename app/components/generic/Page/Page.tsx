@@ -28,6 +28,8 @@ export type PageProps = {
 // MARKUP
 export const Page = ({ page }: PageProps) => (
   <Box as="article" className="page">
-    <Type as="h1">{page?.title}</Type>
+    <Type as="h1">Foo</Type>
+    <hr />
+    <Type as="h2">{page?.title}</Type>
   </Box>
 );
