@@ -29,35 +29,34 @@ type PageBySlugProps = PageProps & {
 };
 
 export async function loader() {
-  const foo = await sanityAPI.fetch(
-    `*[_type == "page" && slug.current == "home"]{
-      title
-    }`,
+  const appSettings: AppSettingsProps = await sanityAPI.fetch(
+    APP_SETTINGS_QUERY,
   );
 
-  //   const primer: SanityPageByIdQueryProps = await sanityAPI.fetch(
-  //     PAGE_COMPONENT_TYPES_BY_SLUG_QUERY,
-  //     {
-  //       slug: appSettings?.homePageSlug,
-  //     },
-  //   );
+  const primer: SanityPageByIdQueryProps = await sanityAPI.fetch(
+    PAGE_COMPONENT_TYPES_BY_SLUG_QUERY,
+    {
+      slug: appSettings?.homePageSlug,
+    },
+  );
 
-  //   const payload: PageBySlugProps = await sanityAPI.fetch(
-  //     PAGE_BY_ID_QUERY({
-  //       id: primer?.id,
-  //       componentTypes: primer?.componentTypes,
-  //     }),
-  //   );
+  const payload: PageBySlugProps = await sanityAPI.fetch(
+    PAGE_BY_ID_QUERY({
+      id: primer?.id,
+      componentTypes: primer?.componentTypes,
+    }),
+  );
 
-  //   if (!payload?.page) {
-  //     // eslint-disable-next-line @typescript-eslint/no-throw-literal
-  //     throw new Response('Not Found', {
-  //       status: 404,
-  //     });
-  //   }
+  if (!payload?.page) {
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
+    throw new Response('Not Found', {
+      status: 404,
+    });
+  }
 
   return json({
-    page: foo || null,
+    page: payload?.page || null,
+    error404: payload?.error404 || null,
   });
 }
 
@@ -88,13 +87,13 @@ export async function loader() {
 // }
 
 export default function Index() {
-  // const { page } = useLoaderData<typeof loader>();
+  const { page } = useLoaderData<typeof loader>();
 
   return (
     <Box as="article" className="page">
       <Type as="h1">Foo</Type>
       <hr />
-      {/* <Type as="h2">{page?.title}</Type> */}
+      <Type as="h2">{page?.title}</Type>
     </Box>
   );
 }
