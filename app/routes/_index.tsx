@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
+import type { LoaderArgs } from '@remix-run/cloudflare';
+
 import { useLoaderData } from '@remix-run/react';
 import type { V2_HtmlMetaDescriptor, V2_MetaFunction } from '@vercel/remix';
-import { json } from '@vercel/remix';
+import { json } from '@remix-run/cloudflare';
 import { cacheHeader } from 'pretty-cache-header';
 import type { Error404Props } from '~/components/generic/Error404/Error404';
 import type { PageProps } from '~/components/generic/Page/Page';
@@ -26,36 +28,38 @@ type PageBySlugProps = PageProps & {
   error404: Error404Props['page'];
 };
 
-// export async function loader() {
-//   const appSettings: AppSettingsProps = await sanityAPI.fetch(
-//     APP_SETTINGS_QUERY,
-//   );
+export async function loader() {
+  const foo = await sanityAPI.fetch(
+    `*[_type == "page" && slug.current == "home"]{
+      title
+    }`,
+  );
 
-//   const primer: SanityPageByIdQueryProps = await sanityAPI.fetch(
-//     PAGE_COMPONENT_TYPES_BY_SLUG_QUERY,
-//     {
-//       slug: appSettings?.homePageSlug,
-//     },
-//   );
+  //   const primer: SanityPageByIdQueryProps = await sanityAPI.fetch(
+  //     PAGE_COMPONENT_TYPES_BY_SLUG_QUERY,
+  //     {
+  //       slug: appSettings?.homePageSlug,
+  //     },
+  //   );
 
-//   const payload: PageBySlugProps = await sanityAPI.fetch(
-//     PAGE_BY_ID_QUERY({
-//       id: primer?.id,
-//       componentTypes: primer?.componentTypes,
-//     }),
-//   );
+  //   const payload: PageBySlugProps = await sanityAPI.fetch(
+  //     PAGE_BY_ID_QUERY({
+  //       id: primer?.id,
+  //       componentTypes: primer?.componentTypes,
+  //     }),
+  //   );
 
-//   if (!payload?.page) {
-//     // eslint-disable-next-line @typescript-eslint/no-throw-literal
-//     throw new Response('Not Found', {
-//       status: 404,
-//     });
-//   }
+  //   if (!payload?.page) {
+  //     // eslint-disable-next-line @typescript-eslint/no-throw-literal
+  //     throw new Response('Not Found', {
+  //       status: 404,
+  //     });
+  //   }
 
-//   return json({
-//     page: payload?.page || null,
-//   });
-// }
+  return json({
+    page: foo || null,
+  });
+}
 
 // export const meta: V2_MetaFunction = ({
 //   matches,
