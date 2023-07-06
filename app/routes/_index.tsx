@@ -17,6 +17,7 @@ import type { SanityPageByIdQueryProps } from '~/types/SanityPageByIdQueryProps'
 
 import { checkMetadata } from '~/utils/checkMetadata';
 import { mergeMeta } from '~/utils/mergeMeta';
+import type { SanityApiEnvVarsProps } from '~/utils/sanity-js-api/sanityAPI';
 import { sanityAPI } from '~/utils/sanity-js-api/sanityAPI';
 
 import type { AppSettingsProps } from '~/components/settings/AppSettings/AppSettings';
@@ -28,7 +29,11 @@ type PageBySlugProps = PageProps & {
   error404: Error404Props['page'];
 };
 
-export async function loader({ context }: LoaderArgs) {
+export async function loader({
+  context,
+}: LoaderArgs & {
+  context: { env: SanityApiEnvVarsProps };
+}) {
   const sanityApiConfig = {
     SANITY_PUBLIC_PROJECT_ID: context.env.SANITY_PUBLIC_PROJECT_ID,
     SANITY_PUBLIC_DATASET: context.env.SANITY_PUBLIC_DATASET,
