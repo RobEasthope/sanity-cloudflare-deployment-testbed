@@ -34,7 +34,7 @@ export async function loader({
 }: LoaderArgs & {
   context: { env: SanityApiProps };
 }) {
-  const sanityApiConfig = {
+  const sanityEnvVars = {
     SANITY_PUBLIC_PROJECT_ID: context.env.SANITY_PUBLIC_PROJECT_ID,
     SANITY_PUBLIC_DATASET: context.env.SANITY_PUBLIC_DATASET,
     SANITY_PUBLIC_API_VERSION: context.env.SANITY_PUBLIC_API_VERSION,
@@ -43,17 +43,18 @@ export async function loader({
     SANITY_API_TOKEN: context.env.SANITY_API_TOKEN,
   };
 
-  const appSettings: AppSettingsProps = await sanityAPI(sanityApiConfig).fetch(
+  const appSettings: AppSettingsProps = await sanityAPI(sanityEnvVars).fetch(
     APP_SETTINGS_QUERY,
   );
 
-  const primer: SanityPageByIdQueryProps = await sanityAPI(
-    sanityApiConfig,
-  ).fetch(PAGE_COMPONENT_TYPES_BY_SLUG_QUERY, {
-    slug: appSettings?.homePageSlug,
-  });
+  const primer: SanityPageByIdQueryProps = await sanityAPI(sanityEnvVars).fetch(
+    PAGE_COMPONENT_TYPES_BY_SLUG_QUERY,
+    {
+      slug: appSettings?.homePageSlug,
+    },
+  );
 
-  const payload: PageBySlugProps = await sanityAPI(sanityApiConfig).fetch(
+  const payload: PageBySlugProps = await sanityAPI(sanityEnvVars).fetch(
     PAGE_BY_ID_QUERY({
       id: primer?.id,
       componentTypes: primer?.componentTypes,
