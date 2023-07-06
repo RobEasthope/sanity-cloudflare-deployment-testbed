@@ -29,6 +29,15 @@ type PageBySlugProps = PageProps & {
 };
 
 export async function loader({ context }: LoaderArgs) {
+  const sanityApiConfig = {
+    SANITY_PUBLIC_PROJECT_ID: context.env.SANITY_PUBLIC_PROJECT_ID,
+    SANITY_PUBLIC_DATASET: context.env.SANITY_PUBLIC_DATASET,
+    SANITY_PUBLIC_API_VERSION: context.env.SANITY_PUBLIC_API_VERSION,
+    USE_SANITY_CDN: true,
+    SANITY_PERSPECTIVE: 'published',
+    SANITY_API_TOKEN: context.env.SANITY_API_TOKEN,
+  };
+
     APP_SETTINGS_QUERY,
   );
 
