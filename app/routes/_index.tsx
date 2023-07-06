@@ -38,17 +38,17 @@ export async function loader({ context }: LoaderArgs) {
     SANITY_API_TOKEN: context.env.SANITY_API_TOKEN,
   };
 
+  const appSettings: AppSettingsProps = await sanityAPI(sanityApiConfig).fetch(
     APP_SETTINGS_QUERY,
   );
 
-  const primer: SanityPageByIdQueryProps = await sanityAPI.fetch(
-    PAGE_COMPONENT_TYPES_BY_SLUG_QUERY,
-    {
-      slug: appSettings?.homePageSlug,
-    },
-  );
+  const primer: SanityPageByIdQueryProps = await sanityAPI(
+    sanityApiConfig,
+  ).fetch(PAGE_COMPONENT_TYPES_BY_SLUG_QUERY, {
+    slug: appSettings?.homePageSlug,
+  });
 
-  const payload: PageBySlugProps = await sanityAPI.fetch(
+  const payload: PageBySlugProps = await sanityAPI(sanityApiConfig).fetch(
     PAGE_BY_ID_QUERY({
       id: primer?.id,
       componentTypes: primer?.componentTypes,
