@@ -28,8 +28,7 @@ type PageBySlugProps = PageProps & {
   error404: Error404Props['page'];
 };
 
-export async function loader() {
-  const appSettings: AppSettingsProps = await sanityAPI.fetch(
+export async function loader({ context }: LoaderArgs) {
     APP_SETTINGS_QUERY,
   );
 
