@@ -1,6 +1,6 @@
 import { createClient } from '@sanity/client';
 
-export type SanityApiEnvVarsProps = {
+export type SanityApiProps = {
   SANITY_PUBLIC_PROJECT_ID: string;
   SANITY_PUBLIC_DATASET: string;
   SANITY_PUBLIC_API_VERSION: string;
@@ -9,7 +9,7 @@ export type SanityApiEnvVarsProps = {
   SANITY_API_TOKEN: string;
 };
 
-export const sanityAPI = (sanityApiConfig: SanityApiEnvVarsProps) =>
+export const sanityAPI = (env: SanityApiProps) =>
   createClient({
     projectId: sanityApiConfig.SANITY_PUBLIC_PROJECT_ID,
     dataset: sanityApiConfig.SANITY_PUBLIC_DATASET,
