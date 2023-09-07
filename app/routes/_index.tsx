@@ -1,5 +1,6 @@
 import type { V2_MetaFunction } from '@remix-run/cloudflare';
 import { json } from '@remix-run/cloudflare';
+import { useLoaderData } from '@remix-run/react';
 import groq from 'groq';
 import { sanityAPI } from '~/utils/sanity-js-api/sanityAPI';
 
